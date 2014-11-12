@@ -42,15 +42,18 @@ public class Board {
 
     public Board abprune(Board parent, int depth, int a, int b, int color) {//, ArrayList<Integer[]> steps) {
         populateChildren(color);
-        Board returnBoard = this;
-
         if (depth == 0 || children.isEmpty()) {
-            return returnBoard;//.getScore(color);
+            return this;//.getScore(color);
         }
+
+        Board returnBoard = this;
         if (color == 1) {
             while (children.size() > 0) {
                 //for (int i = 0; i < children.size() && a < b; i++) {
-                Board child = children.remove((int) (Math.random() * children.size()));
+                Board child = children.remove(0);//(int) (Math.random() * children.size()));
+                if (child.getScoreBlack() == 0 || child.getScoreWhite() == 0) {
+                    break;
+                }
                 //a = Integer.max(a, child.abprune(this, depth - 1, a, b, -1).getScore(color));//,br.steps));
                 int prune = child.abprune(this, depth - 1, a, b, -1).getScore(color);
                 if (prune > a) {
@@ -66,9 +69,9 @@ public class Board {
         } else {
             while (children.size() > 0) {
                 //for (int i = 0; i < children.size() && a < b; i++) {
-                Board child = children.remove((int) (Math.random() * children.size()));
+                Board child = children.remove(0);//(int) (Math.random() * children.size()));
                 //b = Integer.min(b, child.abprune(this, depth - 1, a, b, 1).getScore(color));//,br.steps));
-                int prune = child.abprune(this, depth - 1, a, b, -1).getScore(color);
+                int prune = child.abprune(this, depth - 1, a, b, -1).getScore(color*-1);
                 if (prune < b) {
                     b = prune;
                     returnBoard = child;
@@ -168,9 +171,12 @@ public class Board {
     //places a piece
     public boolean putPiece(int x, int y, int color) {
         boolean flip = true;
-        if (x < 0 || x >= 8 || y < 0 || y >= 8 || this.getNumBlanks() == 0) {
+        if (x < 0 || x >= 8
+                || y < 0 || y >= 8
+                || this.getNumBlanks() == 0
+                || !board[y][x].isBlank()) {
             return false;
-        } else if (board[y][x].isBlank()) {
+        } else {// if (board[y][x].isBlank()) {
             //board[y][x].setValue(color);
             boolean valid = false;
             if (checkHoriz(x, y, color, flip)) {
@@ -192,9 +198,11 @@ public class Board {
 
     public Board checkPiece(int x, int y, int color, boolean first) {
         boolean flip = true;
-        if (x < 0 || x >= 8 || y < 0 || y >= 8 || this.getNumBlanks() == 0) {
+        if (x < 0 || x >= 8 || y < 0 || y >= 8
+                || this.getNumBlanks() == 0
+                || !board[y][x].isBlank()) {
             return null;
-        } else if (board[y][x].isBlank()) {
+        } else {// if (board[y][x].isBlank()) {
             Board newBoard = new Board(this.getBoard());
             newBoard.getBoard()[y][x].setValue(color);
 
