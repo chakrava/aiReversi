@@ -43,7 +43,7 @@ public class AiReversi {
         while (initialBoard.getNumBlanks() > 0 && iteration < Math.pow(initialBoard.getBoard().length, 2)) {
             initialBoard.populateChildren(color, true);
             for (Board br : initialBoard.children) {
-                Board tempBoard = br.abprune2(initialBoard, 2, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
+                Board tempBoard = br.abprune(initialBoard, 5, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
                 if (tempBoard != null) {
                     pl = tempBoard;
                 }

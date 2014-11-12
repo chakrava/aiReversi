@@ -40,51 +40,13 @@ public class Board {
         move[1] = -1;
     }
 
-    public Board abprune2(Board parent, int depth, int a, int b, int color) {//, ArrayList<Integer[]> steps) {
-        populateChildren(color);
-        if (depth == 0 || children.isEmpty()) {
-            return this;//.getScore(color);
-        }
-
-        Board returnBoard = this;
-        if (color == 1) {
-            while (children.size() > 0 && a < b) {
-                //for (int i = 0; i < children.size() && a < b; i++) {
-                Board child = children.remove((int) (Math.random() * children.size()));
-                //a = Integer.max(a, child.abprune(this, depth - 1, a, b, -1).getScore(color));//,br.steps));
-                int prune = child.abprune(this, depth - 1, a, b, -1).getScore(color);
-                if (prune > a) {
-                    a = prune;
-                    returnBoard = child;
-                    break;
-                }
-            }
-            parent.alpha = a;
-            return returnBoard;//a;
-        } else {
-            while (children.size() > 0 && a < b) {
-                //for (int i = 0; i < children.size() && a < b; i++) {
-                Board child = children.remove((int) (Math.random() * children.size()));
-                //b = Integer.min(b, child.abprune(this, depth - 1, a, b, 1).getScore(color));//,br.steps));
-                int prune = child.abprune(this, depth - 1, a, b, -1).getScore(color);
-                if (prune < b) {
-                    b = prune;
-                    returnBoard = child;
-                    break;
-                }
-            }
-            parent.beta = b;
-            return returnBoard;//b;
-        }
-    }
-
     public Board abprune(Board parent, int depth, int a, int b, int color) {//, ArrayList<Integer[]> steps) {
         populateChildren(color);
-        if (depth == 0 || children.isEmpty()) {
-            return this;//.getScore(color);
-        }
-
         Board returnBoard = this;
+        
+        if (depth == 0 || children.isEmpty()) {
+            return returnBoard;//.getScore(color);
+        }
         if (color == 1) {
             while (children.size() > 0 && a < b) {
                 //for (int i = 0; i < children.size() && a < b; i++) {
@@ -94,6 +56,7 @@ public class Board {
                 if (prune > a) {
                     a = prune;
                     returnBoard = child;
+                    break;
                 }
             }
             parent.alpha = a;
@@ -107,6 +70,7 @@ public class Board {
                 if (prune < b) {
                     b = prune;
                     returnBoard = child;
+                    break;
                 }
             }
             parent.beta = b;
