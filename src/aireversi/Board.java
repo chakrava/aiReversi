@@ -55,26 +55,32 @@ public class Board {
                 //moveToMake[0] = children.get(i).move[0];
                 //moveToMake[1] = children.get(i).move[1];
             }
-            parent.alpha=a;
+            parent.alpha = a;
             return this;//a;
         } else {
             for (int i = 0; i < children.size() && a < b; i++) {
                 b = Float.min(b, children.get(i).abprune(this, depth - 1, a, b, 1).getScore(1));//,br.steps));
             }
-            parent.beta=b;
+            parent.beta = b;
             return this;//b;
         }
     }
 
     public void populateChildren(int color) {
+        this.populateChildren(color, false);
+    }
+
+    public void populateChildren(int color, boolean first) {
         //Board childBoard=new Board();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 //childBoard = new Board(this.getBoard());
-                Board childBoard = this.checkPiece(i, j, color);
+                Board childBoard = this.checkPiece(i, j, color, first);
                 if (childBoard != null) {
-                    //childBoard.move[0] = -1;
-                    //childBoard.move[1] = -1;
+                    if (!first) {
+                        childBoard.move[0] = this.move[0];
+                        childBoard.move[1] = this.move[1];
+                    }
                     children.add(childBoard);
                     //childBoard.printBoard();
                 }
@@ -163,7 +169,7 @@ public class Board {
         return false;
     }
 
-    public Board checkPiece(int x, int y, int color) {
+    public Board checkPiece(int x, int y, int color, boolean first) {
         boolean flip = true;
         if (x < 0 || x >= 8 || y < 0 || y >= 8 || this.getNumBlanks() == 0) {
             return null;
@@ -171,20 +177,14 @@ public class Board {
             Board newBoard = new Board(this.getBoard());
             newBoard.getBoard()[y][x].setValue(color);
 
-            if (this.move[0] < 0 || this.move[1] < 0) {
-                move[0] = x;
-                move[1] = y;
+            if (first) {
+                newBoard.move[0] = x;
+                newBoard.move[1] = y;
             }
 
             if (newBoard.checkHoriz(x, y, color, flip)
                     || newBoard.checkVert(x, y, color, flip)
                     || newBoard.checkDiag(x, y, color, flip)) {
-                //board[y][x].setValue(0);
-                //return;
-                //board[y][x].setValue(0);
-
-                newBoard.move = move;
-
                 return newBoard;
             }
         }

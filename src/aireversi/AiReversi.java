@@ -40,7 +40,7 @@ public class AiReversi {
         //state.populateChildren(1);
 
         Board pl=null;// = initialBoard.abprune(initialBoard, initialBoard, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
-        initialBoard.populateChildren(color);
+        initialBoard.populateChildren(color,true);
         for (Board br : initialBoard.children) {
             pl = br.abprune(initialBoard, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
         }

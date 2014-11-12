@@ -67,20 +67,20 @@ public class State {
     }
 
     public void populateChildren(int color) {
-        Board childBoard;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if ((childBoard = currentBoard.checkPiece(i, j, color)) != null) {
-                    children.add(childBoard);
-                    System.out.println(i + ", " + j);
-                    childBoard.printBoard();
-
-                }
-                if (childBoard.getNumBlanks() != 0) {
-                    //State childState = new State(childBoard, alpha, beta);
-                    //childState.populateChildren(color * -1);
-                }
-            }
-        }
+//        Board childBoard;
+//        for (int i = 0; i < 8; i++) {
+//            for (int j = 0; j < 8; j++) {
+//                if ((childBoard = currentBoard.checkPiece(i, j, color)) != null) {
+//                    children.add(childBoard);
+//                    System.out.println(i + ", " + j);
+//                    childBoard.printBoard();
+//
+//                }
+//                if (childBoard.getNumBlanks() != 0) {
+//                    //State childState = new State(childBoard, alpha, beta);
+//                    //childState.populateChildren(color * -1);
+//                }
+//            }
+//        }
     }
 }
