@@ -1,6 +1,8 @@
 package aireversi;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -21,8 +23,8 @@ public class AiReversi {
         long start = System.currentTimeMillis();
 
         int color = 1;
-        int iteration = 0;
-        while (initialBoard.getNumBlanks() > 0 && iteration < 200) {
+        int iteration = 100;
+        while (initialBoard.getNumBlanks() > 0 && iteration < 100) {
             int x = (int) (Math.random() * 8);
             int y = (int) (Math.random() * 8);
 
@@ -35,20 +37,35 @@ public class AiReversi {
             }
             iteration++;
         }
-//        initialBoard.printBoard();
-//        System.exit(0);
-        //state.populateChildren(1);
 
-        Board pl=null;// = initialBoard.abprune(initialBoard, initialBoard, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
-        initialBoard.populateChildren(color,true);
-        for (Board br : initialBoard.children) {
-            pl = br.abprune(initialBoard, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
+//        initialBoard.populateChildren(color);
+//        for(Board br:initialBoard.children){
+//            br.printBoard();
+//        }
+        iteration = 0;//50000;
+        Board pl = null;// = initialBoard.abprune(initialBoard, initialBoard, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
+        while (initialBoard.getNumBlanks() > 0 && iteration < Math.pow(initialBoard.getBoard().length, 2)) {
+            initialBoard.populateChildren(color, true);
+            for (Board br : initialBoard.children) {
+                Board tempBoard = br.abprune(initialBoard, 2, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
+                if (tempBoard != null) {
+                    pl = tempBoard;
+                }
+            }
+
+            String colorString = "B";
+            if (color == -1) {
+                colorString = "W";
+            }
+            System.out.print(colorString + ": ");
+            pl.printMove();
+
+            initialBoard.putPiece(pl.move[0], pl.move[1], color);
+            initialBoard.printBoard();
+            color *= -1;
+
+            iteration++;
         }
-        //float pl = initialBoard.abprune(initialBoard, 4, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
-
-        System.out.println(pl);
-        //System.out.println(Board.moveToMake[0]+","+Board.moveToMake[1]);
-        pl.printMove();
 
 //        for(Integer[] i:pl.steps){
 //            System.out.println(i);
