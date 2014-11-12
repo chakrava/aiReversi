@@ -71,7 +71,7 @@ public class Board {
                 //for (int i = 0; i < children.size() && a < b; i++) {
                 Board child = children.remove(0);//(int) (Math.random() * children.size()));
                 //b = Integer.min(b, child.abprune(this, depth - 1, a, b, 1).getScore(color));//,br.steps));
-                int prune = child.abprune(this, depth - 1, a, b, -1).getScore(color*-1);
+                int prune = child.abprune(this, depth - 1, a, b, 1).getScore(color);
                 if (prune < b) {
                     b = prune;
                     returnBoard = child;
