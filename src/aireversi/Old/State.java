@@ -1,6 +1,6 @@
 package aireversi.Old;
 
-import aireversi.Board;
+import aireversiOld.Board;
 import com.sun.jmx.snmp.BerDecoder;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package aireversi;
+package aireversiOld;
 
 /**
  *
@@ -37,17 +37,18 @@ public class AiReversi {
         int iteration = 0;
         Board pl;// = initialBoard.abprune(initialBoard, initialBoard, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
         while (initialBoard.getNumBlanks() > 0
-                && initialBoard.getScoreBlack() != 0 && initialBoard.getScoreWhite() != 0
+                //&& initialBoard.getNumBlack() != 0 && initialBoard.getNumWhite() != 0
                 && iteration < Math.pow(initialBoard.getBoard().length, 2)) {
             pl = null;
             initialBoard.populateChildren(color, true);
             for (Board br : initialBoard.children) {
-                Board tempBoard = br.abprune(initialBoard, 5, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
+                Board tempBoard = br.abprune(initialBoard, 1, Integer.MIN_VALUE, Integer.MAX_VALUE, color);//, initialBoard.steps);
 
                 if (pl == null
                         || (tempBoard != null && tempBoard.getScore(color) > pl.getScore(color))) {
                     pl = tempBoard;
                 }
+                pl=tempBoard;
             }
 
             String colorString = "B";

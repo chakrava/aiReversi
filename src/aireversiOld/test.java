@@ -1,4 +1,4 @@
-package aireversi;
+package aireversiOld;
 
 /**
  *

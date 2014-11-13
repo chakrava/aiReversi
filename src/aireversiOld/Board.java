@@ -1,4 +1,4 @@
-package aireversi;
+package aireversiOld;
 
 import java.util.ArrayList;
 
@@ -8,9 +8,10 @@ import java.util.ArrayList;
  */
 public class Board {
 
+    int[] move = {-1, -1};
+
     private Node[][] board = new Node[8][8];
     public ArrayList<Board> children = new ArrayList<>();
-    int[] move = {-1, -1};
 
     float alpha = Integer.MIN_VALUE;
     float beta = Integer.MAX_VALUE;
@@ -51,7 +52,7 @@ public class Board {
             while (children.size() > 0) {
                 //for (int i = 0; i < children.size() && a < b; i++) {
                 Board child = children.remove(0);//(int) (Math.random() * children.size()));
-                if (child.getScoreBlack() == 0 || child.getScoreWhite() == 0) {
+                if (child.getNumBlack() == 0 || child.getNumWhite() == 0) {
                     break;
                 }
                 //a = Integer.max(a, child.abprune(this, depth - 1, a, b, -1).getScore(color));//,br.steps));
@@ -95,7 +96,7 @@ public class Board {
             for (int j = 0; j < 8; j++) {
                 //childBoard = new Board(this.getBoard());
                 Board childBoard = this.checkPiece(i, j, color, first);
-                if (childBoard != null) {
+                if (childBoard != null && this.board[i][j].isBlank()) {
                     //childBoard.putPiece(i, j, color);
                     children.add(childBoard);
                     //childBoard.printBoard();
@@ -108,7 +109,7 @@ public class Board {
         }
     }
 
-    public int getScoreBlack() {
+    public int getNumBlack() {
         int total = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -120,7 +121,7 @@ public class Board {
         return total;
     }
 
-    public int getScoreWhite() {
+    public int getNumWhite() {
         int total = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -134,9 +135,9 @@ public class Board {
 
     public int getScore(int v) {
         if (v == 1) {
-            return (this.getScoreBlack() - this.getScoreWhite() + (3 * (this.getNumEdge(1) - this.getNumEdge(-1))));
+            return (this.getNumBlack() - this.getNumWhite() + (3 * (this.getNumEdge(1) - this.getNumEdge(-1))));
         } else if (v == -1) {
-            return (this.getScoreWhite() - this.getScoreBlack() + (3 * (this.getNumEdge(-1) - this.getNumEdge(1))));
+            return (this.getNumWhite() - this.getNumBlack() + (3 * (this.getNumEdge(-1) - this.getNumEdge(1))));
         } else {
             throw new RuntimeException("Invalid color!");
         }
@@ -244,7 +245,10 @@ public class Board {
         if (x >= 0) {
             ArrayList<Node> potentialCaptures = new ArrayList<>();
             for (int i = x - 1; i >= 0; i--) {
-                if (board[y][i].getValue() == color) {
+                Node position = board[y][i];
+                if (position.isBlank()) {
+                    break;
+                } else if (position.getValue() == color) {
                     for (Node n : potentialCaptures) {
                         if (flip) {
                             n.flip();
@@ -254,10 +258,8 @@ public class Board {
                         }
                     }
                     break;
-                } else if (!board[y][i].isBlank()) {
-                    potentialCaptures.add(board[y][i]);
-                } else {
-                    break;
+                } else if (!position.isBlank()) {
+                    potentialCaptures.add(position);
                 }
             }
         }
@@ -265,7 +267,10 @@ public class Board {
         if (x < 8) {
             ArrayList<Node> potentialCaptures = new ArrayList<>();
             for (int i = x + 1; i < 8; i++) {
-                if (board[y][i].getValue() == color) {
+                Node position = board[y][i];
+                if (position.isBlank()) {
+                    break;
+                } else if (position.getValue() == color) {
                     if (!flip) {
                         flipped = true;
                         break;
@@ -279,8 +284,8 @@ public class Board {
                         }
                     }
                     break;
-                } else if (!board[y][i].isBlank()) {
-                    potentialCaptures.add(board[y][i]);
+                } else if (!position.isBlank()) {
+                    potentialCaptures.add(position);
                 } else {
                     break;
                 }
@@ -299,7 +304,10 @@ public class Board {
         if (y >= 0) {
             ArrayList<Node> potentialCaptures = new ArrayList<>();
             for (int i = y - 1; i >= 0; i--) {
-                if (board[i][x].getValue() == color) {
+                Node position = board[i][x];
+                if (position.isBlank()) {
+                    break;
+                } else if (position.getValue() == color) {
                     for (Node n : potentialCaptures) {
                         if (flip) {
                             n.flip();
@@ -309,10 +317,8 @@ public class Board {
                         }
                     }
                     break;
-                } else if (!board[i][x].isBlank()) {
-                    potentialCaptures.add(board[i][x]);
-                } else {
-                    break;
+                } else if (!position.isBlank()) {
+                    potentialCaptures.add(position);
                 }
             }
         }
@@ -320,7 +326,10 @@ public class Board {
         if (y < 8) {
             ArrayList<Node> potentialCaptures = new ArrayList<>();
             for (int i = y + 1; i < 8; i++) {
-                if (board[i][x].getValue() == color) {
+                Node position = board[i][x];
+                if (position.isBlank()) {
+                    break;
+                } else if (position.getValue() == color) {
                     for (Node n : potentialCaptures) {
                         if (flip) {
                             n.flip();
@@ -330,10 +339,8 @@ public class Board {
                         }
                     }
                     break;
-                } else if (!board[i][x].isBlank()) {
-                    potentialCaptures.add(board[i][x]);
-                } else {
-                    break;
+                } else if (!position.isBlank()) {
+                    potentialCaptures.add(position);
                 }
             }
         }
@@ -353,7 +360,9 @@ public class Board {
         //down-right
         for (int i = 1; x + i < 8 && y + i < 8; i++) {
             Node position = board[y + i][x + i];
-            if (position.getValue() == color) {
+            if (position.isBlank()) {
+                break;
+            } else if (position.getValue() == color) {
                 if (!flip) {
                     flipped = true;
                     break;
@@ -366,11 +375,9 @@ public class Board {
                         flipped = true;
                     }
                 }
-                break;
+                //break;
             } else if (!position.isBlank()) {
                 potentialCaptures.add(position);
-            } else {
-                break;
             }
         }
 
@@ -378,7 +385,9 @@ public class Board {
         potentialCaptures.clear();
         for (int i = 1; x - i >= 0 && y + i < 8; i++) {
             Node position = board[y + i][x - i];
-            if (position.getValue() == color) {
+            if (position.isBlank()) {
+                break;
+            } else if (position.getValue() == color) {
                 if (!flip) {
                     flipped = true;
                     break;
@@ -391,11 +400,9 @@ public class Board {
                         flipped = true;
                     }
                 }
-                break;
+                //break;
             } else if (!position.isBlank()) {
                 potentialCaptures.add(position);
-            } else {
-                break;
             }
         }
 
@@ -403,7 +410,9 @@ public class Board {
         potentialCaptures.clear();
         for (int i = 1; x - i >= 0 && y - i >= 0; i++) {
             Node position = board[y - i][x - i];
-            if (position.getValue() == color) {
+            if (position.isBlank()) {
+                break;
+            } else if (position.getValue() == color) {
                 if (!flip) {
                     flipped = true;
                     break;
@@ -416,11 +425,9 @@ public class Board {
                         flipped = true;
                     }
                 }
-                break;
+                //break;
             } else if (!position.isBlank()) {
                 potentialCaptures.add(position);
-            } else {
-                break;
             }
         }
 
@@ -428,7 +435,9 @@ public class Board {
         potentialCaptures.clear();
         for (int i = 1; x + i < 8 && y - i >= 0; i++) {
             Node position = board[y - i][x + i];
-            if (position.getValue() == color) {
+            if (position.isBlank()) {
+                break;
+            } else if (position.getValue() == color) {
                 if (!flip) {
                     flipped = true;
                     break;
@@ -441,11 +450,9 @@ public class Board {
                         flipped = true;
                     }
                 }
-                break;
+                //break;
             } else if (!position.isBlank()) {
                 potentialCaptures.add(position);
-            } else {
-                break;
             }
         }
         return flipped;
@@ -468,7 +475,8 @@ public class Board {
     }
 
     public void printScore() {
-        System.out.println("H-Black: " + this.getScore(1) + "\nH-White: " + this.getScore(-1) + "\n");
+        System.out.println("H-Black: " + this.getScore(1)
+                + "\nH-White: " + this.getScore(-1) + "\n");
     }
 
     @Override
@@ -488,7 +496,8 @@ public class Board {
             }
             temp += "\n";
         }
-        temp += "Black: " + this.getScoreBlack() + "\nWhite: " + this.getScoreWhite() + "\n";
+        temp += "Black: " + this.getNumBlack() + " [" + this.getScore(1) + "]"
+                + "\nWhite: " + this.getNumWhite() + " [" + this.getScore(-1) + "]" + "\n";
 
         return temp;
     }
