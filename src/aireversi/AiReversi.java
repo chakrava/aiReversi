@@ -65,6 +65,6 @@ public class AiReversi {
 
             color *= -1;
         }
+        //end
     }
-
 }

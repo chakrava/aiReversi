@@ -36,6 +36,15 @@ public class Board {
         }
     }
 
+    public void printValues() {
+        for (int i = 0; i < board.length; i++) {
+            {
+                board[i].setValue(i);
+            }
+        }
+        printBoard();
+    }
+
     public static int translate(int x, int y) {
         throw new RuntimeException("Not implemented");
         //return (y * 10) + x;
@@ -67,11 +76,17 @@ public class Board {
     public int getEdge(int x) {
         int total = 0;
 
-        for (int i : edgePositions) {
+        for (int i = 0; i < board.length; i++) {
             if (board[i].getValue() == x) {
-                total++;
+                int row = i / 10;
+                int column = i % 10;
+                if (row == 1 || row == 9
+                        || column == 1 || column == 9) {
+                    total++;
+                }
             }
         }
+
         return total;
     }
 
@@ -166,6 +181,7 @@ public class Board {
                 } else if (board[i].isWhite()) {
                     n = "O";
                 }
+                //n = board[i].getValue() + "";
                 temp += "[" + n + "] ";
 
                 if (i + 1 > 0 && (i + 1) % 10 == 0) {
