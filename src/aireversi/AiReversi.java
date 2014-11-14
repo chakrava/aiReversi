@@ -34,13 +34,19 @@ public class AiReversi {
             AlphaBetaPrune abp = new AlphaBetaPrune(5);
 
             abp.abPrune(initialBoard, color, Integer.MIN_VALUE, Integer.MAX_VALUE, 6);
-            if(abp.bestMove.position==-1){
+            if (abp.bestMove.position == -1) {
                 break;
             }
-            
+
             int AIposition[] = Board.translate(abp.bestMove.position);
 
-            System.out.println("ab " + color + " chooses: " + AIposition[0] + "," + AIposition[1] + " [" + abp.bestMove.position + "]");
+            String player = "B";
+            if (color == -1) {
+                player = "W";
+            }
+            System.out.println(player + " chooses: "
+                    + AIposition[0] + "," + AIposition[1]
+                    + " [" + abp.bestMove.position + "]");
             //Move abMove = new Move();
             //abMove.position = abp.bestMove;
             //abMove.color = color;
@@ -56,10 +62,6 @@ public class AiReversi {
 //            initialBoard = initialBoard.putPiece(moves.get((int) (Math.random() * moves.size())));
             initialBoard = initialBoard.putPiece(abp.bestMove);
 
-//            String player = "B";
-//            if (color == -1) {
-//                player = "W";
-//            }
             //System.out.println(player + ": " + position[0] + "," + position[1]);
             initialBoard.printBoard();
 
