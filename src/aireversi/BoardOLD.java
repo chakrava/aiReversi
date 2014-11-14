@@ -1,4 +1,4 @@
-package aireversiOld;
+package aireversi;
 
 import java.util.ArrayList;
 
@@ -6,17 +6,17 @@ import java.util.ArrayList;
  *
  * @author Erik Storla
  */
-public class Board {
+public class BoardOLD {
 
-    int[] move = {-1, -1};
+    //int[] move = {-1, -1};
 
     private Node[][] board = new Node[8][8];
-    public ArrayList<Board> children = new ArrayList<>();
+    public ArrayList<BoardOLD> children = new ArrayList<>();
 
     float alpha = Integer.MIN_VALUE;
     float beta = Integer.MAX_VALUE;
 
-    public Board() {
+    public BoardOLD() {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 board[i][j] = new Node();
@@ -27,31 +27,31 @@ public class Board {
                 }
             }
         }
-        move[0] = -1;
-        move[1] = -1;
+        //move[0] = -1;
+        //move[1] = -1;
     }
 
-    public Board(Node[][] boardInc) {
+    public BoardOLD(Node[][] boardInc) {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 board[i][j] = new Node(boardInc[i][j].getValue());
             }
         }
-        move[0] = -1;
-        move[1] = -1;
+//        move[0] = -1;
+//        move[1] = -1;
     }
 
-    public Board abprune(Board parent, int depth, int a, int b, int color) {//, ArrayList<Integer[]> steps) {
+    public BoardOLD abprune(BoardOLD parent, int depth, int a, int b, int color) {//, ArrayList<Integer[]> steps) {
         populateChildren(color);
         if (depth == 0 || children.isEmpty()) {
             return this;//.getScore(color);
         }
 
-        Board returnBoard = this;
+        BoardOLD returnBoard = this;
         if (color == 1) {
             while (children.size() > 0) {
                 //for (int i = 0; i < children.size() && a < b; i++) {
-                Board child = children.remove(0);//(int) (Math.random() * children.size()));
+                BoardOLD child = children.remove(0);//(int) (Math.random() * children.size()));
                 if (child.getNumBlack() == 0 || child.getNumWhite() == 0) {
                     break;
                 }
@@ -70,7 +70,7 @@ public class Board {
         } else {
             while (children.size() > 0) {
                 //for (int i = 0; i < children.size() && a < b; i++) {
-                Board child = children.remove(0);//(int) (Math.random() * children.size()));
+                BoardOLD child = children.remove(0);//(int) (Math.random() * children.size()));
                 //b = Integer.min(b, child.abprune(this, depth - 1, a, b, 1).getScore(color));//,br.steps));
                 int prune = child.abprune(this, depth - 1, a, b, 1).getScore(color);
                 if (prune < b) {
@@ -95,7 +95,7 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 //childBoard = new Board(this.getBoard());
-                Board childBoard = this.checkPiece(i, j, color, first);
+                BoardOLD childBoard = this.checkPiece(i, j, color, first);
                 if (childBoard != null && this.board[i][j].isBlank()) {
                     //childBoard.putPiece(i, j, color);
                     children.add(childBoard);
@@ -197,25 +197,25 @@ public class Board {
         return false;
     }
 
-    public Board checkPiece(int x, int y, int color, boolean first) {
+    public BoardOLD checkPiece(int x, int y, int color, boolean first) {
         boolean flip = true;
         if (x < 0 || x >= 8 || y < 0 || y >= 8
                 || this.getNumBlanks() == 0
                 || !board[y][x].isBlank()) {
             return null;
         } else {// if (board[y][x].isBlank()) {
-            Board newBoard = new Board(this.getBoard());
+            BoardOLD newBoard = new BoardOLD(this.getBoard());
             newBoard.getBoard()[y][x].setValue(color);
 
-            if (!first) {
-                newBoard.move[0] = this.move[0];
-                newBoard.move[1] = this.move[1];
-            }
-
-            if (first) {
-                newBoard.move[0] = x;
-                newBoard.move[1] = y;
-            }
+//            if (!first) {
+//                newBoard.move[0] = this.move[0];
+//                newBoard.move[1] = this.move[1];
+//            }
+//
+//            if (first) {
+//                newBoard.move[0] = x;
+//                newBoard.move[1] = y;
+//            }
 
             boolean valid = false;
             if (newBoard.checkHoriz(x, y, color, flip)) {
@@ -466,9 +466,9 @@ public class Board {
         this.board = board;
     }
 
-    public void printMove() {
-        System.out.println(move[0] + "," + move[1]);
-    }
+//    public void printMove() {
+//        System.out.println(move[0] + "," + move[1]);
+//    }
 
     public void printBoard() {
         System.out.println(this);
