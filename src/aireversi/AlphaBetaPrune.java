@@ -34,8 +34,11 @@ public class AlphaBetaPrune {
         }
 
         if (color == 1) {
-            for (int i = 0; i < moves.size(); i++) {
-                Move move = moves.get(i);
+            //for (int i = 0; i < moves.size(); i++) {
+            Move move;
+            while(!moves.isEmpty()){
+                //Move move = moves.get(i);
+                move=moves.remove((int)(Math.random()*moves.size()));
                 Board newBoard = new Board(parent.board);
                 newBoard.putPiece(move);
                 move.score = newBoard.getScore(color);
@@ -54,8 +57,11 @@ public class AlphaBetaPrune {
             }
             return alpha;
         } else {//if (color == -1) {
-            for (int i = 0; i < moves.size(); i++) {
-                Move move = moves.get(i);
+            //for (int i = 0; i < moves.size(); i++) {
+            Move move;
+            while(!moves.isEmpty()){
+                //Move move = moves.get(i);
+                move=moves.remove((int)(Math.random()*moves.size()));
                 Board newBoard = new Board(parent.board);
                 newBoard.putPiece(move);
                 move.score = newBoard.getScore(color);
