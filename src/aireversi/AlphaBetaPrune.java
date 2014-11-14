@@ -27,7 +27,7 @@ public class AlphaBetaPrune {
         ArrayList<Move> moves = parent.getMoves(color);
 
         if (depth == 0 || moves.isEmpty()) {
-            return parent.getScore(color);
+            return parent.getFullScore(color);
         }
         if (bestMove.position == -1 && !moves.isEmpty()) {
             bestMove = moves.get(0);
@@ -41,7 +41,7 @@ public class AlphaBetaPrune {
                 move=moves.remove((int)(Math.random()*moves.size()));
                 Board newBoard = new Board(parent.board);
                 newBoard.putPiece(move);
-                move.score = newBoard.getScore(color);
+                move.score = newBoard.getFullScore(color);
                 alpha = move.score;
 
                 int prune = abPrune(newBoard, -1, alpha, beta, depth - 1);
@@ -64,7 +64,7 @@ public class AlphaBetaPrune {
                 move=moves.remove((int)(Math.random()*moves.size()));
                 Board newBoard = new Board(parent.board);
                 newBoard.putPiece(move);
-                move.score = newBoard.getScore(color);
+                move.score = newBoard.getFullScore(color);
                 beta = move.score;
 
                 int prune = abPrune(newBoard, 1, alpha, beta, depth - 1);

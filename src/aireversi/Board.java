@@ -34,15 +34,6 @@ public class Board {
         }
     }
 
-    public void printValues() {
-        for (int i = 0; i < board.length; i++) {
-            {
-                board[i].setValue(i);
-            }
-        }
-        printBoard();
-    }
-
     public static int translate(int x, int y) {
         throw new RuntimeException("Not implemented");
         //return (y * 10) + x;
@@ -87,9 +78,30 @@ public class Board {
 
         return total;
     }
+    
+    public int getInsideEdge(int x) {
+        int total = 0;
 
+        for (int i = 0; i < board.length; i++) {
+            if (board[i].getValue() == x) {
+                int row = i / 10;
+                int column = i % 10;
+                if (row == 2 || row == 8
+                        || column == 2 || column == 8) {
+                    total++;
+                }
+            }
+        }
+
+        return total;
+    }
+
+    public int getFullScore(int x) {
+        return getScore(x)-getScore(-x);
+    }
+    
     public int getScore(int x) {
-        return getNum(x) + (5 * getEdge(x));
+        return getNum(x) + (2 * getEdge(x))+(-1*getInsideEdge(x));
     }
 
     public Board putPiece(int x, int y, int color) {
