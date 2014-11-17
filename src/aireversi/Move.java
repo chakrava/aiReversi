@@ -3,6 +3,7 @@ package aireversi;
 import java.util.Comparator;
 
 /**
+ * Represents a Move in Reversi.
  *
  * @author Erik Storla
  */

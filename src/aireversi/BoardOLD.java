@@ -3,13 +3,13 @@ package aireversi;
 import java.util.ArrayList;
 
 /**
- *
+ * My original attempt at a Board object, the 2-dimensional array proved too complicated
+ * @deprecated
  * @author Erik Storla
  */
 public class BoardOLD {
 
     //int[] move = {-1, -1};
-
     private Node[][] board = new Node[8][8];
     public ArrayList<BoardOLD> children = new ArrayList<>();
 
@@ -216,7 +216,6 @@ public class BoardOLD {
 //                newBoard.move[0] = x;
 //                newBoard.move[1] = y;
 //            }
-
             boolean valid = false;
             if (newBoard.checkHoriz(x, y, color, flip)) {
                 valid = true;
@@ -469,7 +468,6 @@ public class BoardOLD {
 //    public void printMove() {
 //        System.out.println(move[0] + "," + move[1]);
 //    }
-
     public void printBoard() {
         System.out.println(this);
     }
