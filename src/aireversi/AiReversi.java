@@ -1,8 +1,5 @@
 package aireversi;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  *
  * @author Erik Storla
