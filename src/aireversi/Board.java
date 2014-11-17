@@ -14,6 +14,12 @@ public class Board {
 
 //  private static final int edgePositions[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 15,
 //        16, 23, 24, 31, 32, 39, 40, 47, 48, 55, 56, 57, 58, 59, 60, 61, 62, 63};
+    /**
+     * Constructs a Board object representing a reversi board. The board is an
+     * array of 100 Nodes that represents the 8x8 board with a border (10x10).
+     * The top-left Node in the play area is 11, the top-right is 18...the
+     * bottom right (last) is 88.
+     */
     public Board() {
         for (int i = 0; i < board.length; i++) {
             board[i] = new Node();
@@ -34,11 +40,25 @@ public class Board {
         }
     }
 
+    /**
+     * Used to translate a set of (x,y) values into its position in the array.
+     *
+     * @deprecated
+     * @param x the horizontal position
+     * @param y the vertical position
+     * @return the integer
+     */
     public static int translate(int x, int y) {
         throw new RuntimeException("Not implemented");
         //return (y * 10) + x;
     }
 
+    /**
+     * Translates an array position into its more human-readable (x,y) format
+     *
+     * @param p the position in the array
+     * @return [horizontal value, vertical value]
+     */
     public static int[] translate(int p) {
         int x[] = new int[2];
         x[0] = p - (p / 10) * 10 - 1;
@@ -46,12 +66,23 @@ public class Board {
         return x;
     }
 
+    /**
+     * Makes a copy of a Board
+     *
+     * @param boardInc the board to make a copy of
+     */
     public Board(Node[] boardInc) {
         for (int i = 0; i < board.length; i++) {
             board[i] = new Node(boardInc[i].getValue());
         }
     }
 
+    /**
+     * Returns the number of times a value appears on the Board
+     *
+     * @param x the value to be counted
+     * @return the number of times x appears
+     */
     public int getNum(int x) {
         int total = 0;
         for (Node n : board) {
@@ -62,6 +93,12 @@ public class Board {
         return total;
     }
 
+    /**
+     * Returns the number of times a value appears on an edge of the Board
+     *
+     * @param x the value to be counted
+     * @return the number of times x appears on an edge
+     */
     public int getEdge(int x) {
         int total = 0;
 
@@ -78,7 +115,14 @@ public class Board {
 
         return total;
     }
-    
+
+    /**
+     * Returns the number of times a value appears on an row/column just inside
+     * the edge.
+     *
+     * @param x the value to be counted
+     * @return the number of times x appears
+     */
     public int getInsideEdge(int x) {
         int total = 0;
 
@@ -87,7 +131,9 @@ public class Board {
                 int row = i / 10;
                 int column = i % 10;
                 if (row == 2 || row == 8
-                        || column == 2 || column == 8) {
+                        || column == 2 || column == 8
+                        && (row != 1 || row != 9
+                        || column != 1 || column != 9)) {
                     total++;
                 }
             }
@@ -97,11 +143,11 @@ public class Board {
     }
 
     public int getFullScore(int x) {
-        return getScore(x)-getScore(-x);
+        return getScore(x) - getScore(-x);
     }
-    
+
     public int getScore(int x) {
-        return getNum(x) + (2 * getEdge(x))+(-1*getInsideEdge(x));
+        return getNum(x) + (2 * getEdge(x)) + (-1 * getInsideEdge(x));
     }
 
     public Board putPiece(int x, int y, int color) {
