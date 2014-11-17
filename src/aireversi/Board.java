@@ -142,14 +142,37 @@ public class Board {
         return total;
     }
 
+    /**
+     * Returns a the score for a player - the other player's score.
+     *
+     * @param x the player who's score to check
+     * @return the score
+     */
     public int getFullScore(int x) {
         return getScore(x) - getScore(-x);
     }
 
+    /**
+     * Returns a player's weighted score, favoring outer edges and avoiding the
+     * Nodes just inside the border.
+     *
+     * @param x the player's who's score to check
+     * @return the score
+     */
     public int getScore(int x) {
         return getNum(x) + (2 * getEdge(x)) + (-1 * getInsideEdge(x));
     }
 
+    /**
+     * Wrapper function, places a piece on the board and performs any necessary
+     * flips.
+     *
+     * @see putPiece(Move move)
+     * @param x the horizontal position of the added piece
+     * @param y the vertical position of the added piece
+     * @param color the owning player of the added piece
+     * @return a Board object with the move made
+     */
     public Board putPiece(int x, int y, int color) {
         Move move = new Move();
         move.position = translate(x, y);
@@ -158,6 +181,12 @@ public class Board {
         return putPiece(move);
     }
 
+    /**
+     * Places a piece on the board and performs any necessary flips.
+     *
+     * @param move the move representing the added piece
+     * @return a Board object with the move made
+     */
     public Board putPiece(Move move) {
         Board newBoard = new Board(this.board);
         ArrayList<Integer> flipped = getFlipped(move.position, move.color);
@@ -172,6 +201,12 @@ public class Board {
         return newBoard;
     }
 
+    /**
+     * Returns all the valid moves available to a player on the current Board.
+     *
+     * @param color find moves for this player
+     * @return a List of available Moves
+     */
     public ArrayList<Move> getMoves(int color) {
         ArrayList<Move> moves = new ArrayList<>();
 
@@ -191,6 +226,14 @@ public class Board {
         return moves;
     }
 
+    /**
+     * Returns a list of all the pieces that must be flipped if a piece is
+     * placed in a certain position.
+     *
+     * @param positionToCheck the position in the Board array
+     * @param color the player who's piece is being checked
+     * @return a list of any pieces that will be flipped by the simulated move
+     */
     public ArrayList<Integer> getFlipped(int positionToCheck, int color) {
         ArrayList<Integer> flipped = new ArrayList<>();
 
@@ -213,10 +256,20 @@ public class Board {
         return flipped;
     }
 
+    /**
+     * Prints out the Board
+     *
+     * @see toString()
+     */
     public void printBoard() {
         System.out.println(this);
     }
 
+    /**
+     * Creates a string representation of the board for printing to an output.
+     *
+     * @return a string representation of the board
+     */
     @Override
     public String toString() {
         String temp = "    [0] [1] [2] [3] [4] [5] [6] [7]\n";
@@ -237,7 +290,6 @@ public class Board {
                 } else if (board[i].isWhite()) {
                     n = "O";
                 }
-                //n = board[i].getValue() + "";
                 temp += "[" + n + "] ";
 
                 if (i + 1 > 0 && (i + 1) % 10 == 0) {
