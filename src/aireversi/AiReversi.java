@@ -27,6 +27,7 @@ public class AiReversi {
             
             abp.abPrune(initialBoard, color, Integer.MIN_VALUE, Integer.MAX_VALUE, 7);
             if (abp.bestMove.position == -1) {
+                color*=-1;
                 break;
             }
             
