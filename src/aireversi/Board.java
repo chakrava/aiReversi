@@ -143,8 +143,8 @@ public class Board {
     }
 
     /**
-     * Returns the number of times a value appears in a corner just inside
-     * the edge.
+     * Returns the number of times a value appears in a corner just inside the
+     * edge.
      *
      * @param x
      * @return

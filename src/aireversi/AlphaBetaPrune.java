@@ -14,6 +14,7 @@ public class AlphaBetaPrune {
 
     /**
      * Constructs an AlphaBetaPrune object
+     *
      * @param maxH the highest height the algorithm will search
      */
     public AlphaBetaPrune(int maxH) {

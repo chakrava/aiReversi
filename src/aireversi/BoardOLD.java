@@ -3,7 +3,9 @@ package aireversi;
 import java.util.ArrayList;
 
 /**
- * My original attempt at a Board object, the 2-dimensional array proved too complicated
+ * My original attempt at a Board object, the 2-dimensional array proved too
+ * complicated
+ *
  * @deprecated
  * @author Erik Storla
  */
