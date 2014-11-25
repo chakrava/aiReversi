@@ -15,9 +15,6 @@ public class AiReversi {
 
         int iteration = 0;
         int color = 1;
-        Move introMove = new Move();
-        introMove.color = 1;
-        introMove.position = 34;
 
         while (initialBoard.getNum(0) > 0 && iteration++ < 300) {
             AlphaBetaPrune abp = new AlphaBetaPrune(7);

@@ -143,6 +143,32 @@ public class Board {
     }
 
     /**
+     * Returns the number of times a value appears in a corner just inside
+     * the edge.
+     *
+     * @param x
+     * @return
+     */
+    public int getCorner(int x) {
+        int total = 0;
+
+        for (int i = 0; i < board.length; i++) {
+            if (board[i].getValue() == x) {
+                int row = i / 10;
+                int column = i % 10;
+                if ((row == 1 && column == 1)
+                        || (row == 1 && column == 9)
+                        || (row == 9 && column == 1)
+                        || (row == 9 && column == 9)) {
+                    total++;
+                }
+            }
+        }
+
+        return total;
+    }
+
+    /**
      * Returns a the score for a player - the other player's score.
      *
      * @param x the player who's score to check
@@ -153,14 +179,13 @@ public class Board {
     }
 
     /**
-     * Returns a player's weighted score, favoring outer edges and avoiding the
-     * Nodes just inside the border.
+     * Returns a player's weighted score.
      *
      * @param x the player's who's score to check
      * @return the score
      */
     public int getScore(int x) {
-        return getNum(x) + (2 * getEdge(x)) + (-1 * getInsideEdge(x));
+        return (1 * getNum(x)) + (-1 * getEdge(x)) + (-2 * getInsideEdge(x)) + (3 * getCorner(x));
     }
 
     /**
