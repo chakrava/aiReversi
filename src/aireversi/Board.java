@@ -185,7 +185,8 @@ public class Board {
      * @return the score
      */
     public int getScore(int x) {
-        return (1 * getNum(x)) + (-1 * getEdge(x)) + (-2 * getInsideEdge(x)) + (3 * getCorner(x));
+        return (1 * getNum(x)) + (-1 * getEdge(x))
+                + (-2 * getInsideEdge(x)) + (3 * getCorner(x));
     }
 
     /**
